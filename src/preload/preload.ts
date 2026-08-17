@@ -1,0 +1,2 @@
+import {contextBridge,ipcRenderer} from 'electron';
+contextBridge.exposeInMainWorld('api',{connectEntra:(clientId:string)=>ipcRenderer.invoke('entra:connect',clientId),discover:()=>ipcRenderer.invoke('entra:discover'),onDeviceCode:(cb:(m:string)=>void)=>{const h=(_:unknown,m:string)=>cb(m);ipcRenderer.on('entra:device-code',h);return()=>ipcRenderer.removeListener('entra:device-code',h)},exportReport:(payload:any)=>ipcRenderer.invoke('report:export',payload)});
